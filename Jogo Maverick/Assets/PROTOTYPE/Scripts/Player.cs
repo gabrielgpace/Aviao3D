@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -6,9 +7,18 @@ public class Player : MonoBehaviour
     [SerializeField] private float rotationSpeedUpDown = 45f;
     [SerializeField] private float rotationSpeedRightLeft = 70f;
 
+    private int quantidadeMoeda;
+    [SerializeField] private TMP_Text textoMoeda;
+
+    void Start()
+    {
+        quantidadeMoeda = 0;
+    }
     void Update()
     {
         Move();
+        textoMoeda.SetText(quantidadeMoeda.ToString());
+        
     }
 
     private void Move()
@@ -36,5 +46,15 @@ public class Player : MonoBehaviour
                 0, 
                 0
                 );
+    }
+    private void OnCollisionEnter(Collider collision)
+    {
+        if(collision.CompareTag("Moeda"))
+        {
+            ++quantidadeMoeda;
+            
+            Destroy(gameObject);
+
+        }
     }
 }

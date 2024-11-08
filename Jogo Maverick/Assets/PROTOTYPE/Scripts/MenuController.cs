@@ -89,7 +89,7 @@ public class MenuController : MonoBehaviour
 
             }
         }
-        catch (Exception ex)
+        catch (Exception )
         {
             return;
         }

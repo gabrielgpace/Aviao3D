@@ -3,12 +3,17 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
+    //MOVE
     public float speed = 5f;
     [SerializeField] private float rotationSpeedUpDown = 45f;
     [SerializeField] private float rotationSpeedRightLeft = 70f;
 
+    //UI
     private int quantidadeMoeda;
     [SerializeField] private TMP_Text textoMoeda;
+
+    //BOMBA
+    [SerializeField] private GameObject bombPrefab;
 
     void Start()
     {
@@ -18,6 +23,11 @@ public class Player : MonoBehaviour
     {
         Move();
         textoMoeda.SetText(quantidadeMoeda.ToString());
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Bomb();
+        }
         
     }
 
@@ -47,14 +57,19 @@ public class Player : MonoBehaviour
                 0
                 );
     }
-    private void OnCollisionEnter(Collider collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.CompareTag("Moeda"))
+        if(other.CompareTag("Moeda"))
         {
             ++quantidadeMoeda;
             
-            Destroy(gameObject);
+            Destroy(other.gameObject);
 
         }
+    }
+
+    private void Bomb()
+    {
+        Instantiate(bombPrefab,transform.position, transform.rotation);
     }
 }

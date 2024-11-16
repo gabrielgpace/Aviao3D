@@ -1,27 +1,52 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class Bomb : MonoBehaviour
 {
-    [SerializeField] GameObject particulas;
-    
+    [SerializeField] GameObject particlePrefab;
+    [SerializeField] private float explosionDelay;
+    public Camera cameraGameObject;
+    private bool _isCameraActive = false; 
     void Start()
     {
-        startPosition();
+        StartPosition();
     }
 
-    private void startPosition()
+    private void Update()
     {
-        transform.position = new Vector3(0,-5,0);
+        if (Input.GetKey(KeyCode.LeftAlt))
+        {
+            Debug.Log("Left Alt");
+            _isCameraActive = !_isCameraActive;
+            cameraGameObject.enabled = _isCameraActive;;
+        }
+    }
+
+    private void StartPosition()
+    {
+        
         transform.Rotate(0,0,180);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider collision)
     {
-        if(other.CompareTag("Chao"))
+        if(collision.gameObject.CompareTag("Chao"))
         {
-            Destroy(gameObject);
-            particulas.SetActive(true);
-            //EXPLODE
+            if (particlePrefab != null)
+            {
+                GameObject particleObject = Instantiate(particlePrefab, transform.position, Quaternion.identity);
+                
+                Destroy(particleObject, explosionDelay);
+                Destroy(gameObject);
+            }
+            
         }
+        if (collision.CompareTag("Alvo"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            Debug.Log("Cena "+SceneManager.GetActiveScene().buildIndex);
+            Destroy(gameObject);
+        }
+        
+        
     }
 }

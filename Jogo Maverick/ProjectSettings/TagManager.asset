@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Moeda
   - Chao
+  - Alvo
+  - Bomb
+  - Combustivel
+  - Boost
   layers:
   - Default
   - TransparentFX

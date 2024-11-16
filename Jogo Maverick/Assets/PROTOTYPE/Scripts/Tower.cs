@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Tower : MonoBehaviour
@@ -7,6 +8,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private float shootForce = 1000f;
     [SerializeField] private float cooldownTime = 1f;
     private float lastShootTime;
+    public bool isHigherThan100;
 
     private void Start()
     {
@@ -19,10 +21,15 @@ public class Tower : MonoBehaviour
         {
             transform.LookAt(target);
 
-            if (target.position.y < 100 && Time.time >= lastShootTime + cooldownTime)
+            if (target.position.y > 100 && Time.time >= lastShootTime + cooldownTime)
             {
+                isHigherThan100 = true;
                 Shoot();
                 lastShootTime = Time.time;
+            }
+            else
+            {
+                isHigherThan100 = false;
             }
         }
     }
@@ -32,5 +39,12 @@ public class Tower : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         bulletRb.AddForce(transform.forward * shootForce, ForceMode.Impulse);
+        Debug.Log("Atirando");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player")
+            Destroy(gameObject);
     }
 }

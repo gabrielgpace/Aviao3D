@@ -8,5 +8,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/PROTOTYPE/Scenes/Demo.unity
     guid: a7fd2d10798cba8428ff81d4e15ca9fc
+  - enabled: 1
+    path: Assets/PROTOTYPE/Scenes/Menu.unity
+    guid: b23e6b955ce1d01418d30eb12bc411a5
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

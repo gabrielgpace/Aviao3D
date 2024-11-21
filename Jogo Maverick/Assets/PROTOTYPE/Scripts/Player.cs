@@ -51,23 +51,23 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
-        transform.Translate(Vector3.right * speed * Time.deltaTime);
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
         
         // UP
         if (Input.GetKey(KeyCode.W))
-            transform.Rotate(0, 0, -rotationSpeedUpDown * Time.deltaTime);
+            transform.Rotate(rotationSpeedRightLeft * Time.deltaTime, 0, 0);
         
         // DOWN
         if (Input.GetKey(KeyCode.S))
-            transform.Rotate(0, 0, rotationSpeedUpDown * Time.deltaTime);
+            transform.Rotate(-rotationSpeedRightLeft * Time.deltaTime, 0, 0);
         
         // LEFT
         if (Input.GetKey(KeyCode.A))
-            transform.Rotate(rotationSpeedRightLeft * Time.deltaTime, 0, 0);
+            transform.Rotate(0, 0, rotationSpeedUpDown * Time.deltaTime);
         
         // RIGHT
         if (Input.GetKey(KeyCode.D))
-            transform.Rotate(-rotationSpeedRightLeft * Time.deltaTime, 0, 0);
+            transform.Rotate(0, 0, -rotationSpeedUpDown * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)

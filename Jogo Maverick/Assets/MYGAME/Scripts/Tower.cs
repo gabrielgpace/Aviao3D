@@ -41,10 +41,4 @@ public class Tower : MonoBehaviour
         bulletRb.AddForce(transform.forward * shootForce, ForceMode.Impulse);
         Debug.Log("Atirando");
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Player")
-            Destroy(gameObject);
-    }
 }

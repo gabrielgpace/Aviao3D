@@ -5,7 +5,9 @@ public class Bomb : MonoBehaviour
     [SerializeField] GameObject particlePrefab;
     [SerializeField] private float explosionDelay;
     public Camera cameraGameObject;
-    private bool _isCameraActive = false; 
+    private bool _isCameraActive;
+
+    [SerializeField] private Transform bombHeight;
     void Start()
     {
         StartPosition();
@@ -29,7 +31,7 @@ public class Bomb : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.CompareTag("Chao"))
+        if(collision.gameObject.CompareTag("Chao") || bombHeight.position.y < 0)
         {
             if (particlePrefab != null)
             {

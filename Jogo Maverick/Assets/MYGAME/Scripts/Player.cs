@@ -13,14 +13,17 @@ public class Player : MonoBehaviour
 
     // UI
     private int _quantidadeMoeda;
-    private int _quantidadeCombustivel;
     [SerializeField] private TMP_Text _textoMoeda;
+
+    // MENUS
+    public bool gameOver;
 
     // BOMBA
     [SerializeField] private GameObject bombPrefab;
-    
-    // COMBUSTIVEL
+
+    // COMBUSTÍVEL
     public Slider fuelSlider;
+    public float fuelQuantity;
     public float fuelDecreaseRate = 1f;
     public float fuelIncreaseAmount = 20f;
 
@@ -32,20 +35,30 @@ public class Player : MonoBehaviour
     {
         _quantidadeMoeda = 0;
         originalSpeed = speed;
+        fuelQuantity = fuelSlider.value;
+        gameOver = false;
     }
 
     void Update()
     {
         Move();
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             DropBomb();
         }
+
         _textoMoeda.SetText(_quantidadeMoeda.ToString());
 
-        if (fuelSlider.value > 0)
+        if (fuelQuantity > 0)
         {
-            fuelSlider.value -= fuelDecreaseRate * Time.deltaTime;
+            fuelQuantity -= fuelDecreaseRate * Time.deltaTime;
+            fuelQuantity = Mathf.Clamp(fuelQuantity, 0, fuelSlider.maxValue);
+            fuelSlider.value = fuelQuantity;
+        }
+        else
+        {
+            gameOver = true;
         }
     }
 
@@ -80,7 +93,8 @@ public class Player : MonoBehaviour
 
         if (other.CompareTag("Combustivel"))
         {
-            fuelSlider.value = Mathf.Min(fuelSlider.maxValue, fuelSlider.value + fuelIncreaseAmount);
+            fuelQuantity = Mathf.Min(fuelSlider.maxValue, fuelQuantity + fuelIncreaseAmount);
+            fuelSlider.value = fuelQuantity;
             Destroy(other.gameObject);
         }
 
@@ -92,7 +106,7 @@ public class Player : MonoBehaviour
 
         if (other.CompareTag("Alvo"))
         {
-            Debug.Log("Voce ganhou!");
+            Debug.Log("Você ganhou!");
         }
     }
 
